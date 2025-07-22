@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sweet seventeen Shae❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* RESET & VARIABLES */
+        :root {
+            --pink-primary: #ffafcc;
+            --pink-secondary: #ffc8dd;
+            --cream-primary: #ffd7ba;
+            --cream-secondary: #f8edeb;
+            --text-dark: #4a4a4a;
+            --text-light: #ffffff;
+            --pink-dark: #e67e9f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--cream-secondary), var(--cream-primary));
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ANIMASI KUE ULANG TAHUN */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffc8dd, #ffafcc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+        
+        .splash-content {
+            text-align: center;
+        }
+        
+        .cake-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        
+        .cake {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background: #f8edeb;
+            border-radius: 10px;
+            bottom: 60px;
+            left: 50px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: scale(0);
+            animation: cakeAppear 1s forwards 0.5s;
+        }
+        
+        .cake-top {
+            position: absolute;
+            width: 220px;
+            height: 50px;
+            background: var(--pink-primary);
+            border-radius: 50%;
+            top: -25px;
+            left: -10px;
+        }
+        
+        .candle {
+            position: absolute;
+            width: 8px;
+            height: 50px;
+            background: white;
+            border-radius: 4px;
+            bottom: 120px;
+            z-index: 2;
+            opacity: 0;
+            animation: candleAppear 0.5s forwards 1.5s;
+        }
+        
+        .candle:nth-child(1) { left: 70px; }
+        .candle:nth-child(2) { left: 100px; }
+        .candle:nth-child(3) { left: 130px; }
+        .candle:nth-child(4) { left: 160px; }
+        .candle:nth-child(5) { left: 190px; }
+        
+        .flame {
+            position: absolute;
+            width: 16px;
+            height: 30px;
+            background: linear-gradient(to top, #ff9500, #ffde00);
+            border-radius: 50% 50% 20% 20%;
+            bottom: 280px;
+    left: 148px;
+            z-index: 1;
+            opacity: 0;
+            filter: blur(1px);
+            animation: flameAppear 0.5s forwards 2s, flameFlicker 0.5s infinite alternate 2.5s;
+        }
+        
+        .flame:nth-child(6) { left: 66px; }
+        .flame:nth-child(7) { left: 96px; }
+        .flame:nth-child(8) { left: 126px; }
+        .flame:nth-child(9) { left: 156px; }
+        .flame:nth-child(10) { left: 186px; }
+        
+        .splash-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: white;
+            margin-top: 50px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: textAppear 1s forwards 2.5s;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffde00;
+            top: -10px;
+            z-index: 10;
+            animation: fall linear forwards;
+        }
+        
+        .confetti:nth-child(odd) { background: #ff6b6b; }
+        .confetti:nth-child(3n) { background: #4a9eff; }
+        .confetti:nth-child(4n) { background: #6bffb8; }
+        
+        @keyframes cakeAppear {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes candleAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes flameAppear {
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes flameFlicker {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        @keyframes textAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fall {
+            to { top: 100%; transform: rotate(360deg); }
+        }
+        
+        /* Background hearts */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart-bg {
+            position: absolute;
+            display: block;
+            color: rgba(255, 175, 204, 0.15);
+            font-size: 1.5rem;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+            }
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: var(--text-light);
+            text-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* Photo Gallery */
+        .photo-section {
+            padding: 3rem 1rem;
+            background-color: var(--cream-secondary);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--pink-dark);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--pink-dark);
+            border-radius: 2px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            aspect-ratio: 1/1;
+            background-color: var(--cream-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 8px solid white;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--pink-dark);
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            transform: translateY(100%);
+            transition: transform 0.4s;
+            text-align: center;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        /* Message Section */
+        .message-section {
+            padding: 3rem 1rem;
+            background: linear-gradient(45deg, var(--pink-secondary), var(--cream-primary));
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .message-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--pink-dark);
+        }
+
+        .message-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
+        }
+
+        .message {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--pink-dark);
+            text-align: right;
+            margin-top: 1rem;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            padding: 3rem 1rem;
+            background-color: var(--cream-secondary);
+            position: relative;
+            z-index: 10;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 2px solid var(--pink-dark);
+        }
+
+        .chat-header {
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
+            padding: 1.2rem;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            font-family: 'Dancing Script', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f8edeb"/><path d="M20,20 Q40,5 60,20 T100,20 Q85,40 100,60 T100,100 Q60,85 20,100 T0,100 Q5,60 0,20 T20,20" fill="%23ffafcc" opacity="0.1"/></svg>');
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 18px 22px;
+            margin: 8px 0;
+            border-radius: 25px;
+            position: relative;
+            animation: fadeIn 0.4s ease;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            word-wrap: break-word;
+            cursor: context-menu;
+            transition: transform 0.2s;
+        }
+
+        .message-bubble:hover {
+            transform: scale(1.01);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .received {
+            background-color: var(--cream-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            color: var(--text-dark);
+        }
+
+        .sent {
+            background: linear-gradient(90deg, var(--pink-primary), var(--pink-dark));
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 1.2rem;
+            background-color: white;
+            border-top: 2px solid var(--cream-primary);
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid var(--cream-primary);
+            border-radius: 30px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 3px rgba(255, 175, 204, 0.3);
+        }
+
+        .send-button {
+            background: linear-gradient(90deg, var(--pink-primary), var(--pink-dark));
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin-left: 12px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .send-button:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            display: none;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            border: 3px solid var(--pink-primary);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .login-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--pink-dark);
+            margin-bottom: 2rem;
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-option {
+            background: linear-gradient(90deg, var(--pink-primary), var(--pink-dark));
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .login-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .login-option:active {
+            transform: translateY(2px);
+        }
+
+        .close-login {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--pink-dark);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .close-login:hover {
+            color: #ff6b93;
+            transform: rotate(90deg);
+        }
+
+        /* Countdown */
+        .countdown-section {
+            padding: 3rem 1rem;
+            background: linear-gradient(45deg, var(--pink-secondary), var(--cream-primary));
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 1.8rem;
+            min-width: 140px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--pink-dark);
+        }
+
+        .countdown-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--pink-dark);
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .countdown-label {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
+            color: var(--text-light);
+            text-align: center;
+            padding: 2.5rem;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3.5rem;
+            }
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            .countdown-item {
+                min-width: 100px;
+                padding: 1.2rem;
+            }
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+            .message-bubble {
+                max-width: 85%;
+                padding: 15px 18px;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .photo-item {
+                border-width: 5px;
+            }
+            .cake-container {
+                width: 250px;
+                height: 250px;
+            }
+            .cake {
+                width: 180px;
+                height: 100px;
+                left: 35px;
+            }
+            .cake-top {
+                width: 200px;
+            }
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: none;
+            overflow: hidden;
+            min-width: 150px;
+        }
+
+        .context-menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .context-menu-item:hover {
+            background: #f8f8f8;
+        }
+
+        .context-menu-item.delete {
+            color: #ff6b6b;
+        }
+
+        .context-menu-item.edit {
+            color: #4a9eff;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--pink-primary);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .save-btn {
+            background: var(--pink-primary);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #f0f0f0;
+            color: #555;
+        }
+        
+        /* Hide main content initially */
+        .main-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen with Cake Animation -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <div class="cake-container">
+                <img src="cakess.png" alt="" style="
+                width: 467px;
+                position: absolute;
+                left: -70px;
+                top: -60px;
+            ">
+                <div class="flame"></div>
+            </div>
+            <div class="splash-text">Happy 17th Birthday!</div>
+        </div>
+    </div>
+
+    <!-- Main Content (initially hidden) -->
+    <div class="main-content">
+        <!-- Background hearts -->
+        <div class="hearts-bg" id="heartsBg"></div>
+
+        <!-- Login Overlay -->
+        <div class="login-overlay" id="loginOverlay">
+            <div class="login-box">
+                <button class="close-login" id="closeLogin">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="login-title">Ryu/Shae</h2>
+                <div class="login-options">
+                    <button class="login-option" id="loginMe">
+                        <i class="fas fa-user"></i> Ryu
+                    </button>
+                    <button class="login-option" id="loginLover">
+                        <i class="fas fa-heart"></i> Shae❤️
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Menu -->
+        <div class="context-menu" id="contextMenu">
+            <div class="context-menu-item edit" id="editMessage">
+                <i class="fas fa-edit"></i> Edit Pesan
+            </div>
+            <div class="context-menu-item delete" id="deleteMessage">
+                <i class="fas fa-trash-alt"></i> Hapus Pesan
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">Selamat Ulang Tahun Shae❤️!</h1>
+                <p class="subtitle">Have a good day everyday,everytime, and smile everytime (lucu bgt soalnya hehe)</p>
+                <div class="countdown-container">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="days">0</div>
+                        <div class="countdown-label">Hari</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="hours">0</div>
+                        <div class="countdown-label">Jam</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="minutes">0</div>
+                        <div class="countdown-label">Menit</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="seconds">0</div>
+                        <div class="countdown-label">Detik</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Photo Gallery -->
+        <section class="photo-section">
+            <h2 class="section-title">All About We What I Have 😁</h2>
+            <div class="photo-gallery">
+                <div class="photo-item">
+                    <img src="" alt="Kenangan 1">
+                    <div class="photo-caption">Fotbar</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1516487200032-8532cb257d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 2">
+                    <div class="photo-caption">pap</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 3">
+                    <div class="photo-caption">game</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 4">
+                    <div class="photo-caption">chat</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal Message -->
+        <section class="message-section">
+            <div class="message-container">
+                <h2 class="section-title">Surat Cinta</h2>
+                <p class="message">
+                    Hai princess, happy sweet seventeen yeah, selamat bertambah tua wkkwk, kita jadi seumuran (trial 10 hari). Makin banyak kegiatan kamu makin hari kehari, tapi aku yakin kamu pasti bisa ngejalanin itu semua hingga mencapai cita cita kamu, semangat yah, ill be here for you 😊.
+                    <br><br>
+                    Terimakasih selama ini sudah bertahan sama aku, walaupun pasti banyak yg naksir kamu, padahal aku engga punya kelebihan dibanding anak anak lain, tapi aku bakalan berusaha kelas 12 aku bakalan serius buat jadi akpol, bismillah doain yah, ayo kita berjuan bareng, dan nanti awal masuk kamu pasti kaget, aku bakalan beraniin buat adzan dan istigosah, hehe.
+                    <br><br>
+                    Semoga di ulang tahun kamu yg ke-17 ini, kamu jadi lebih peduli sama diri kamu sendiri, jgn terlalu mentingin orang lain, jadwal kamu juga pasti makin padet nanti, apalagi kamu disuruh milih les mandarin atau jerman 🗿, kataku mending jepang sih. yah tapi bahasa apapun kamu pasti bisa hafalan kamu kuat pinter juga, kerennya.
+                    <br><br>
+                    Sebenernya ini website mau buat anyversary kita, tapi maaf engga sempet ngelarin error terus, bahkan web yg buat hari ibu waktu itu engga bisa ku benerin (gara gara update software kodenya error maaf😔),alhamdulillah aku bisa ngelarin website ini, dan sekarang kita bisa chatingan juga disini hehe.
+                    <br><br>
+                    aku pingin nambahin lebih panjang lagi, tapi bingung mau ngomong apa 😔, tapi intinya aku berharap kamu bisa lebih bahagia dan terus senyum setiap hari, sumaph lucu bgt kalau senyum.
+                </p>
+                <div class="signature">with love,<br>Ryu</div>
+            </div>
+        </section>
+
+        <!-- Chat Room -->
+        <section class="chat-section">
+            <h2 class="section-title">Room Chat</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-heart"></i> RyuShae <i class="fas fa-heart"></i>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Pesan akan dimuat di sini -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="message-input" id="messageInput" placeholder="Ketik pesan">
+                    <button class="send-button" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>From ryu for sweet seventeen Shae <span class="heart">❤️</span></p>
+        </footer>
+    </div>
+
+    <script>
+        // Splash screen animation
+        const splashScreen = document.getElementById('splashScreen');
+        
+        // Function to create confetti
+        function createConfetti() {
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                splashScreen.appendChild(confetti);
+            }
+        }
+        
+        // Timeline for splash screen
+        setTimeout(() => {
+            // Lilin dinyalakan
+            document.querySelectorAll('.flame').forEach(flame => {
+                flame.style.opacity = '1';
+            });
+        }, 1000);
+        
+        setTimeout(() => {
+            // Tampilkan konfeti
+            createConfetti();
+        }, 3000);
+        
+        setTimeout(() => {
+            // Hilangkan splash screen dan tampilkan konten utama
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                document.querySelector('.main-content').style.display = 'block';
+            }, 1000);
+        }, 4000);
+
+        // Generate floating hearts background
+        const heartsBg = document.getElementById('heartsBg');
+        for (let i = 0; i < 50; i++) {
+            const heart = document.createElement('i');
+            heart.classList.add('fas', 'fa-heart', 'heart-bg');
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDelay = `${Math.random() * 15}s`;
+            heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
+            heart.style.opacity = Math.random() * 0.3 + 0.1;
+            heartsBg.appendChild(heart);
+        }
+
+        // Login functionality
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginMeBtn = document.getElementById('loginMe');
+        const loginLoverBtn = document.getElementById('loginLover');
+        const closeLoginBtn = document.getElementById('closeLogin');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+        const contextMenu = document.getElementById('contextMenu');
+        const editMessageBtn = document.getElementById('editMessage');
+        const deleteMessageBtn = document.getElementById('deleteMessage');
+        
+        // Set initial user state
+        let currentUser = null;
+        let selectedMessageIndex = null;
+        
+        // Show login when trying to send message
+        function showLogin() {
+            if (!currentUser) {
+                loginOverlay.style.display = 'flex';
+                return false;
+            }
+            return true;
+        }
+        
+        // Handle login
+        loginMeBtn.addEventListener('click', () => {
+            currentUser = 'me';
+            loginOverlay.style.display = 'none';
+            messageInput.focus();
+        });
+        
+        loginLoverBtn.addEventListener('click', () => {
+            currentUser = 'lover';
+            loginOverlay.style.display = 'none';
+            messageInput.focus();
+        });
+        
+        // Close login overlay
+        closeLoginBtn.addEventListener('click', () => {
+            loginOverlay.style.display = 'none';
+        });
+        
+        // Countdown timer
+        function updateCountdown() {
+            // Set birthday date (change to your loved one's birthday)
+            const birthday = new Date("2025-07-24T00:00:00");
+            const now = new Date();
+            
+            // If birthday has passed this year, set to next year
+            if (now > birthday) {
+                birthday.setFullYear(birthday.getFullYear() + 1);
+            }
+            
+            const diff = birthday - now;
+            
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Update the DOM
+            document.getElementById("days").textContent = days.toString().padStart(2, '0');
+            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Initial update and set interval
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // Chat storage functionality
+        function loadChats() {
+            const savedChats = localStorage.getItem('birthdayChats');
+            if (savedChats) {
+                return JSON.parse(savedChats);
+            }
+            // Return empty array if no saved chats
+            return [];
+        }
+        
+        function saveChats(chats) {
+            localStorage.setItem('birthdayChats', JSON.stringify(chats));
+        }
+        
+        function renderChats() {
+            chatMessages.innerHTML = '';
+            const chats = loadChats();
+            
+            chats.forEach((chat, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = chat.sender === 'me' ? 'message-bubble sent' : 'message-bubble received';
+                messageElement.textContent = chat.text;
+                messageElement.dataset.index = index;
+                
+                // Add context menu event
+                messageElement.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    
+                    // Only allow editing/deleting for the current user's messages
+                    if (chat.sender === currentUser) {
+                        selectedMessageIndex = index;
+                        showContextMenu(e);
+                    }
+                });
+                
+                chatMessages.appendChild(messageElement);
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Context menu functionality
+        function showContextMenu(e) {
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = `${e.pageX}px`;
+            contextMenu.style.top = `${e.pageY}px`;
+        }
+        
+        function hideContextMenu() {
+            contextMenu.style.display = 'none';
+        }
+        
+        // Hide context menu when clicking elsewhere
+        document.addEventListener('click', hideContextMenu);
+        
+        // Edit message functionality
+        editMessageBtn.addEventListener('click', () => {
+            hideContextMenu();
+            if (selectedMessageIndex === null) return;
+            
+            const chats = loadChats();
+            const message = chats[selectedMessageIndex].text;
+            
+            // Create edit form
+            const editForm = document.createElement('div');
+            editForm.innerHTML = `
+                <textarea class="edit-input">${message}</textarea>
+                <div class="edit-buttons">
+                    <button class="edit-btn save-btn">Simpan</button>
+                    <button class="edit-btn cancel-btn">Batal</button>
+                </div>
+            `;
+            
+            // Replace message with edit form
+            const messageElement = document.querySelector(`.message-bubble[data-index="${selectedMessageIndex}"]`);
+            messageElement.innerHTML = '';
+            messageElement.appendChild(editForm);
+            
+            // Focus textarea
+            const textarea = editForm.querySelector('textarea');
+            textarea.focus();
+            textarea.selectionStart = textarea.value.length;
+            
+            // Save button event
+            editForm.querySelector('.save-btn').addEventListener('click', () => {
+                const newText = textarea.value.trim();
+                if (newText) {
+                    chats[selectedMessageIndex].text = newText;
+                    saveChats(chats);
+                    renderChats();
+                }
+            });
+            
+            // Cancel button event
+            editForm.querySelector('.cancel-btn').addEventListener('click', () => {
+                renderChats();
+            });
+        });
+        
+        // Delete message functionality
+        deleteMessageBtn.addEventListener('click', () => {
+            hideContextMenu();
+            if (selectedMessageIndex === null) return;
+            
+            if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
+                const chats = loadChats();
+                chats.splice(selectedMessageIndex, 1);
+                saveChats(chats);
+                renderChats();
+            }
+        });
+        
+        // Initialize chat
+        renderChats();
+        
+        // Chat functionality
+        function sendMessage() {
+            if (!showLogin()) return;
+            
+            const message = messageInput.value.trim();
+            if (message && currentUser) {
+                // Load existing chats
+                const chats = loadChats();
+                
+                // Add new message
+                chats.push({ sender: currentUser, text: message });
+                
+                // Save to localStorage
+                saveChats(chats);
+                
+                // Re-render chats
+                renderChats();
+                
+                // Clear input
+                messageInput.value = '';
+            }
+        }
+        
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
