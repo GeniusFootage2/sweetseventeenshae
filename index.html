@@ -6,8 +6,8 @@
     <title>sweet seventeen Shae❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <style>
-
         /* RESET & VARIABLES */
         :root {
             --pink-primary: #ffafcc;
@@ -441,7 +441,7 @@
 
         .message-bubble {
             max-width: 75%;
-            padding: 18px 22px;
+            padding: 18px 22px 35px 22px; /* Extra padding for timestamp */
             margin: 8px 0;
             border-radius: 25px;
             position: relative;
@@ -476,6 +476,22 @@
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
+        }
+        
+        .message-time {
+            position: absolute;
+            bottom: 8px;
+            right: 15px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        
+        .received .message-time {
+            color: #4a4a4a;
+        }
+        
+        .sent .message-time {
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .chat-input-area {
@@ -707,7 +723,7 @@
             }
             .message-bubble {
                 max-width: 85%;
-                padding: 15px 18px;
+                padding: 15px 18px 35px 18px;
             }
             .section-title {
                 font-size: 2.5rem;
@@ -800,6 +816,33 @@
         .main-content {
             display: none;
         }
+
+        /* Connection status */
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .connected { background: #4CAF50; }
+        .disconnected { background: #F44336; }
+        .connecting { background: #FFC107; }
     </style>
 </head>
 <body>
@@ -817,6 +860,12 @@
             </div>
             <div class="splash-text">Happy 17th Birthday!</div>
         </div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="connection-status" id="connectionStatus">
+        <span class="status-dot connecting" id="statusDot"></span>
+        <span id="statusText">Menghubungkan ke server...</span>
     </div>
 
     <!-- Main Content (initially hidden) -->
@@ -907,14 +956,7 @@
                 <h2 class="section-title">Surat Cinta</h2>
                 <p class="message">
                     Hai princess, happy sweet seventeen yeah, selamat bertambah tua wkkwk, kita jadi seumuran (trial 10 hari). Makin banyak kegiatan kamu makin hari kehari, tapi aku yakin kamu pasti bisa ngejalanin itu semua hingga mencapai cita cita kamu, semangat yah, ill be here for you 😊.
-                    <br><br>
-                    Terimakasih selama ini sudah bertahan sama aku, walaupun pasti banyak yg naksir kamu, padahal aku engga punya kelebihan dibanding anak anak lain, tapi aku bakalan berusaha kelas 12 aku bakalan serius buat jadi akpol, bismillah doain yah, ayo kita berjuan bareng, dan nanti awal masuk kamu pasti kaget, aku bakalan beraniin buat adzan dan istigosah, hehe.
-                    <br><br>
-                    Semoga di ulang tahun kamu yg ke-17 ini, kamu jadi lebih peduli sama diri kamu sendiri, jgn terlalu mentingin orang lain, jadwal kamu juga pasti makin padet nanti, apalagi kamu disuruh milih les mandarin atau jerman 🗿, kataku mending jepang sih. yah tapi bahasa apapun kamu pasti bisa hafalan kamu kuat pinter juga, kerennya.
-                    <br><br>
-                    Sebenernya ini website mau buat anyversary kita, tapi maaf engga sempet ngelarin error terus, bahkan web yg buat hari ibu waktu itu engga bisa ku benerin (gara gara update software kodenya error maaf😔),alhamdulillah aku bisa ngelarin website ini, dan sekarang kita bisa chatingan juga disini hehe.
-                    <br><br>
-                    aku pingin nambahin lebih panjang lagi, tapi bingung mau ngomong apa 😔, tapi intinya aku berharap kamu bisa lebih bahagia dan terus senyum setiap hari, sumaph lucu bgt kalau senyum.
+
                 </p>
                 <div class="signature">with love,<br>Ryu</div>
             </div>
@@ -946,56 +988,16 @@
     </div>
 
     <script>
-        // Splash screen animation
+        // ==================== KONFIGURASI UTAMA ====================
+        // Server Socket.IO yang baru dan aktif
+        const SOCKET_SERVER_URL = 'https://shae-birthday-chat.onrender.com';
+        
+        // Elemen DOM
         const splashScreen = document.getElementById('splashScreen');
-        
-        // Function to create confetti
-        function createConfetti() {
-            for (let i = 0; i < 150; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                confetti.style.animationDelay = (Math.random() * 2) + 's';
-                splashScreen.appendChild(confetti);
-            }
-        }
-        
-        // Timeline for splash screen
-        setTimeout(() => {
-            // Lilin dinyalakan
-            document.querySelectorAll('.flame').forEach(flame => {
-                flame.style.opacity = '1';
-            });
-        }, 1000);
-        
-        setTimeout(() => {
-            // Tampilkan konfeti
-            createConfetti();
-        }, 3000);
-        
-        setTimeout(() => {
-            // Hilangkan splash screen dan tampilkan konten utama
-            splashScreen.style.opacity = '0';
-            setTimeout(() => {
-                splashScreen.style.display = 'none';
-                document.querySelector('.main-content').style.display = 'block';
-            }, 1000);
-        }, 4000);
-
-        // Generate floating hearts background
+        const connectionStatus = document.getElementById('connectionStatus');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
         const heartsBg = document.getElementById('heartsBg');
-        for (let i = 0; i < 50; i++) {
-            const heart = document.createElement('i');
-            heart.classList.add('fas', 'fa-heart', 'heart-bg');
-            heart.style.left = `${Math.random() * 100}%`;
-            heart.style.animationDelay = `${Math.random() * 15}s`;
-            heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
-            heart.style.opacity = Math.random() * 0.3 + 0.1;
-            heartsBg.appendChild(heart);
-        }
-
-        // Login functionality
         const loginOverlay = document.getElementById('loginOverlay');
         const loginMeBtn = document.getElementById('loginMe');
         const loginLoverBtn = document.getElementById('loginLover');
@@ -1007,110 +1009,270 @@
         const editMessageBtn = document.getElementById('editMessage');
         const deleteMessageBtn = document.getElementById('deleteMessage');
         
-        // Set initial user state
+        // State aplikasi
         let currentUser = null;
-        let selectedMessageIndex = null;
+        let selectedMessageId = null;
+        let socket = null;
         
-        // Show login when trying to send message
-        function showLogin() {
-            if (!currentUser) {
-                loginOverlay.style.display = 'flex';
-                return false;
-            }
-            return true;
-        }
-        
-        // Handle login
-        loginMeBtn.addEventListener('click', () => {
-            currentUser = 'me';
-            loginOverlay.style.display = 'none';
-            messageInput.focus();
+        // ==================== FUNGSI INISIALISASI ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initSplashScreen();
+            initFloatingHearts();
+            initLoginSystem();
+            initCountdown();
+            initSocketConnection();
         });
         
-        loginLoverBtn.addEventListener('click', () => {
-            currentUser = 'lover';
-            loginOverlay.style.display = 'none';
-            messageInput.focus();
-        });
-        
-        // Close login overlay
-        closeLoginBtn.addEventListener('click', () => {
-            loginOverlay.style.display = 'none';
-        });
-        
-        // Countdown timer
-        function updateCountdown() {
-            // Set birthday date (change to your loved one's birthday)
-            const birthday = new Date("2025-07-24T00:00:00");
-            const now = new Date();
-            
-            // If birthday has passed this year, set to next year
-            if (now > birthday) {
-                birthday.setFullYear(birthday.getFullYear() + 1);
-            }
-            
-            const diff = birthday - now;
-            
-            // Calculate days, hours, minutes, seconds
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            // Update the DOM
-            document.getElementById("days").textContent = days.toString().padStart(2, '0');
-            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-        }
-        
-        // Initial update and set interval
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-        
-        // Chat storage functionality
-        function loadChats() {
-            const savedChats = localStorage.getItem('birthdayChats');
-            if (savedChats) {
-                return JSON.parse(savedChats);
-            }
-            // Return empty array if no saved chats
-            return [];
-        }
-        
-        function saveChats(chats) {
-            localStorage.setItem('birthdayChats', JSON.stringify(chats));
-        }
-        
-        function renderChats() {
-            chatMessages.innerHTML = '';
-            const chats = loadChats();
-            
-            chats.forEach((chat, index) => {
-                const messageElement = document.createElement('div');
-                messageElement.className = chat.sender === 'me' ? 'message-bubble sent' : 'message-bubble received';
-                messageElement.textContent = chat.text;
-                messageElement.dataset.index = index;
-                
-                // Add context menu event
-                messageElement.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    
-                    // Only allow editing/deleting for the current user's messages
-                    if (chat.sender === currentUser) {
-                        selectedMessageIndex = index;
-                        showContextMenu(e);
-                    }
+        // ==================== SPLASH SCREEN ====================
+        function initSplashScreen() {
+            // Timeline for splash screen
+            setTimeout(() => {
+                document.querySelectorAll('.flame').forEach(flame => {
+                    flame.style.opacity = '1';
                 });
-                
-                chatMessages.appendChild(messageElement);
+            }, 1000);
+            
+            setTimeout(() => {
+                createConfetti();
+            }, 3000);
+            
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    document.querySelector('.main-content').style.display = 'block';
+                }, 1000);
+            }, 4000);
+        }
+        
+        function createConfetti() {
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                splashScreen.appendChild(confetti);
+            }
+        }
+        
+        // ==================== BACKGROUND HEARTS ====================
+        function initFloatingHearts() {
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('i');
+                heart.classList.add('fas', 'fa-heart', 'heart-bg');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 15}s`;
+                heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                heart.style.opacity = Math.random() * 0.3 + 0.1;
+                heartsBg.appendChild(heart);
+            }
+        }
+        
+        // ==================== LOGIN SYSTEM ====================
+        function initLoginSystem() {
+            // Show login when trying to send message
+            function showLogin() {
+                if (!currentUser) {
+                    loginOverlay.style.display = 'flex';
+                    return false;
+                }
+                return true;
+            }
+            
+            // Handle login
+            loginMeBtn.addEventListener('click', () => {
+                currentUser = 'me';
+                loginOverlay.style.display = 'none';
+                messageInput.focus();
+                loadMessages();
             });
             
-            // Scroll to bottom
+            loginLoverBtn.addEventListener('click', () => {
+                currentUser = 'lover';
+                loginOverlay.style.display = 'none';
+                messageInput.focus();
+                loadMessages();
+            });
+            
+            // Close login overlay
+            closeLoginBtn.addEventListener('click', () => {
+                loginOverlay.style.display = 'none';
+            });
+        }
+        
+        // ==================== COUNTDOWN TIMER ====================
+        function initCountdown() {
+            function updateCountdown() {
+                const birthday = new Date("2025-07-24T00:00:00");
+                const now = new Date();
+                
+                if (now > birthday) {
+                    birthday.setFullYear(birthday.getFullYear() + 1);
+                }
+                
+                const diff = birthday - now;
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById("days").textContent = days.toString().padStart(2, '0');
+                document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+        
+        // ==================== SOCKET.IO & CHAT SYSTEM ====================
+        function initSocketConnection() {
+            // Update status UI
+            function updateConnectionStatus(status, text) {
+                statusDot.className = 'status-dot ' + status;
+                statusText.textContent = text;
+            }
+            
+            // Initialize socket connection
+            socket = io(SOCKET_SERVER_URL, {
+                reconnection: true,
+                reconnectionAttempts: 5,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000
+            });
+            
+            // Connection events
+            socket.on('connect', () => {
+                console.log('Connected to chat server');
+                updateConnectionStatus('connected', 'Terhubung ke server');
+                loadMessages();
+            });
+            
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+                updateConnectionStatus('disconnected', 'Terputus dari server');
+            });
+            
+            socket.on('connect_error', (error) => {
+                console.error('Connection error:', error);
+                updateConnectionStatus('disconnected', 'Gagal terhubung ke server');
+            });
+            
+            socket.on('reconnecting', (attempt) => {
+                console.log(`Reconnecting attempt ${attempt}`);
+                updateConnectionStatus('connecting', 'Mencoba menyambung kembali...');
+            });
+            
+            // Chat events
+            socket.on('all_messages', (messages) => {
+                chatMessages.innerHTML = '';
+                messages.forEach(msg => {
+                    displayMessage(msg);
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+            
+            socket.on('message_received', (message) => {
+                displayMessage(message);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+            
+            socket.on('message_updated', (message) => {
+                updateMessage(message);
+            });
+            
+            socket.on('message_deleted', (id) => {
+                deleteMessage(id);
+            });
+        }
+        
+        function loadMessages() {
+            if (socket && socket.connected) {
+                socket.emit('request_messages');
+            } else {
+                console.warn('Socket not connected, cannot load messages');
+            }
+        }
+        
+        // Format waktu pesan
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Tampilkan pesan di UI
+        function displayMessage(message) {
+            const isOwn = message.sender === currentUser;
+            const messageElement = document.createElement('div');
+            messageElement.className = isOwn ? 'message-bubble sent' : 'message-bubble received';
+            
+            messageElement.innerHTML = `
+                <div class="message-content">${message.text}</div>
+                <div class="message-time">${formatTime(message.timestamp)}</div>
+            `;
+            
+            messageElement.dataset.id = message.id;
+            
+            // Tambahkan context menu hanya untuk pesan sendiri
+            if (isOwn) {
+                messageElement.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    selectedMessageId = message.id;
+                    showContextMenu(e);
+                });
+            }
+            
+            chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Context menu functionality
+        // Perbarui pesan di UI
+        function updateMessage(message) {
+            const messageElement = document.querySelector(`.message-bubble[data-id="${message.id}"]`);
+            if (messageElement) {
+                const content = messageElement.querySelector('.message-content');
+                if (content) {
+                    content.textContent = message.text;
+                }
+            }
+        }
+        
+        // Hapus pesan di UI
+        function deleteMessage(id) {
+            const messageElement = document.querySelector(`.message-bubble[data-id="${id}"]`);
+            if (messageElement) {
+                messageElement.remove();
+            }
+        }
+        
+        // Kirim pesan baru
+        function sendMessage() {
+            if (!currentUser) {
+                loginOverlay.style.display = 'flex';
+                return;
+            }
+            
+            const text = messageInput.value.trim();
+            if (text) {
+                const message = {
+                    sender: currentUser,
+                    text: text,
+                    timestamp: new Date().toISOString()
+                };
+                
+                if (socket && socket.connected) {
+                    socket.emit('new_message', message);
+                    messageInput.value = '';
+                } else {
+                    alert('Tidak terhubung ke server. Silakan coba lagi.');
+                }
+            }
+        }
+        
+        // ==================== CONTEXT MENU FUNCTIONS ====================
         function showContextMenu(e) {
             contextMenu.style.display = 'block';
             contextMenu.style.left = `${e.pageX}px`;
@@ -1127,15 +1289,17 @@
         // Edit message functionality
         editMessageBtn.addEventListener('click', () => {
             hideContextMenu();
-            if (selectedMessageIndex === null) return;
+            if (!selectedMessageId) return;
             
-            const chats = loadChats();
-            const message = chats[selectedMessageIndex].text;
+            const messageElement = document.querySelector(`.message-bubble[data-id="${selectedMessageId}"]`);
+            if (!messageElement) return;
+            
+            const currentText = messageElement.querySelector('.message-content').textContent;
             
             // Create edit form
             const editForm = document.createElement('div');
             editForm.innerHTML = `
-                <textarea class="edit-input">${message}</textarea>
+                <textarea class="edit-input">${currentText}</textarea>
                 <div class="edit-buttons">
                     <button class="edit-btn save-btn">Simpan</button>
                     <button class="edit-btn cancel-btn">Batal</button>
@@ -1143,7 +1307,6 @@
             `;
             
             // Replace message with edit form
-            const messageElement = document.querySelector(`.message-bubble[data-index="${selectedMessageIndex}"]`);
             messageElement.innerHTML = '';
             messageElement.appendChild(editForm);
             
@@ -1155,59 +1318,33 @@
             // Save button event
             editForm.querySelector('.save-btn').addEventListener('click', () => {
                 const newText = textarea.value.trim();
-                if (newText) {
-                    chats[selectedMessageIndex].text = newText;
-                    saveChats(chats);
-                    renderChats();
+                if (newText && socket && socket.connected) {
+                    socket.emit('edit_message', {
+                        id: selectedMessageId,
+                        text: newText
+                    });
                 }
             });
             
             // Cancel button event
             editForm.querySelector('.cancel-btn').addEventListener('click', () => {
-                renderChats();
+                loadMessages();
             });
         });
         
         // Delete message functionality
         deleteMessageBtn.addEventListener('click', () => {
             hideContextMenu();
-            if (selectedMessageIndex === null) return;
+            if (!selectedMessageId) return;
             
             if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
-                const chats = loadChats();
-                chats.splice(selectedMessageIndex, 1);
-                saveChats(chats);
-                renderChats();
+                if (socket && socket.connected) {
+                    socket.emit('delete_message', selectedMessageId);
+                }
             }
         });
         
-        // Initialize chat
-        renderChats();
-        
-        // Chat functionality
-        function sendMessage() {
-            if (!showLogin()) return;
-            
-            const message = messageInput.value.trim();
-            if (message && currentUser) {
-                // Load existing chats
-                const chats = loadChats();
-                
-                // Add new message
-                chats.push({ sender: currentUser, text: message });
-                
-                // Save to localStorage
-                saveChats(chats);
-                
-                // Re-render chats
-                renderChats();
-                
-                // Clear input
-                messageInput.value = '';
-            }
-        }
-        
-        // Event listeners
+        // ==================== EVENT LISTENERS ====================
         sendButton.addEventListener('click', sendMessage);
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
