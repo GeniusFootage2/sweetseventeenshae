@@ -6,7 +6,6 @@
     <title>sweet seventeen Shae❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <style>
         /* RESET & VARIABLES */
         :root {
@@ -989,9 +988,6 @@
 
     <script>
         // ==================== KONFIGURASI UTAMA ====================
-        // Server Socket.IO yang baru dan aktif
-        const SOCKET_SERVER_URL = 'https://shae-birthday-chat.onrender.com';
-        
         // Elemen DOM
         const splashScreen = document.getElementById('splashScreen');
         const connectionStatus = document.getElementById('connectionStatus');
@@ -1020,7 +1016,7 @@
             initFloatingHearts();
             initLoginSystem();
             initCountdown();
-            initSocketConnection();
+            initChat();
         });
         
         // ==================== SPLASH SCREEN ====================
@@ -1071,25 +1067,16 @@
         
         // ==================== LOGIN SYSTEM ====================
         function initLoginSystem() {
-            // Show login when trying to send message
-            function showLogin() {
-                if (!currentUser) {
-                    loginOverlay.style.display = 'flex';
-                    return false;
-                }
-                return true;
-            }
-            
             // Handle login
             loginMeBtn.addEventListener('click', () => {
-                currentUser = 'me';
+                currentUser = 'Ryu';
                 loginOverlay.style.display = 'none';
                 messageInput.focus();
                 loadMessages();
             });
             
             loginLoverBtn.addEventListener('click', () => {
-                currentUser = 'lover';
+                currentUser = 'Shae';
                 loginOverlay.style.display = 'none';
                 messageInput.focus();
                 loadMessages();
@@ -1128,73 +1115,33 @@
             setInterval(updateCountdown, 1000);
         }
         
-        // ==================== SOCKET.IO & CHAT SYSTEM ====================
-        function initSocketConnection() {
+        // ==================== CHAT SYSTEM ====================
+        function initChat() {
             // Update status UI
             function updateConnectionStatus(status, text) {
                 statusDot.className = 'status-dot ' + status;
                 statusText.textContent = text;
             }
             
-            // Initialize socket connection
-            socket = io(SOCKET_SERVER_URL, {
-                reconnection: true,
-                reconnectionAttempts: 5,
-                reconnectionDelay: 1000,
-                reconnectionDelayMax: 5000
-            });
+            // Simulasikan koneksi sukses
+            setTimeout(() => {
+                updateConnectionStatus('connected', 'Terhubung ke server lokal');
+            }, 2000);
             
-            // Connection events
-            socket.on('connect', () => {
-                console.log('Connected to chat server');
-                updateConnectionStatus('connected', 'Terhubung ke server');
-                loadMessages();
-            });
-            
-            socket.on('disconnect', () => {
-                console.log('Disconnected from server');
-                updateConnectionStatus('disconnected', 'Terputus dari server');
-            });
-            
-            socket.on('connect_error', (error) => {
-                console.error('Connection error:', error);
-                updateConnectionStatus('disconnected', 'Gagal terhubung ke server');
-            });
-            
-            socket.on('reconnecting', (attempt) => {
-                console.log(`Reconnecting attempt ${attempt}`);
-                updateConnectionStatus('connecting', 'Mencoba menyambung kembali...');
-            });
-            
-            // Chat events
-            socket.on('all_messages', (messages) => {
-                chatMessages.innerHTML = '';
-                messages.forEach(msg => {
-                    displayMessage(msg);
-                });
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            });
-            
-            socket.on('message_received', (message) => {
-                displayMessage(message);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            });
-            
-            socket.on('message_updated', (message) => {
-                updateMessage(message);
-            });
-            
-            socket.on('message_deleted', (id) => {
-                deleteMessage(id);
-            });
+            // Load pesan dari localStorage
+            loadMessages();
         }
         
         function loadMessages() {
-            if (socket && socket.connected) {
-                socket.emit('request_messages');
-            } else {
-                console.warn('Socket not connected, cannot load messages');
-            }
+            // Ambil pesan dari localStorage
+            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            
+            // Tampilkan pesan
+            chatMessages.innerHTML = '';
+            savedMessages.forEach(msg => {
+                displayMessage(msg);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
         // Format waktu pesan
@@ -1229,25 +1176,6 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Perbarui pesan di UI
-        function updateMessage(message) {
-            const messageElement = document.querySelector(`.message-bubble[data-id="${message.id}"]`);
-            if (messageElement) {
-                const content = messageElement.querySelector('.message-content');
-                if (content) {
-                    content.textContent = message.text;
-                }
-            }
-        }
-        
-        // Hapus pesan di UI
-        function deleteMessage(id) {
-            const messageElement = document.querySelector(`.message-bubble[data-id="${id}"]`);
-            if (messageElement) {
-                messageElement.remove();
-            }
-        }
-        
         // Kirim pesan baru
         function sendMessage() {
             if (!currentUser) {
@@ -1258,17 +1186,42 @@
             const text = messageInput.value.trim();
             if (text) {
                 const message = {
+                    id: Date.now().toString(),
                     sender: currentUser,
                     text: text,
                     timestamp: new Date().toISOString()
                 };
                 
-                if (socket && socket.connected) {
-                    socket.emit('new_message', message);
-                    messageInput.value = '';
-                } else {
-                    alert('Tidak terhubung ke server. Silakan coba lagi.');
-                }
+                // Simpan ke localStorage
+                const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+                savedMessages.push(message);
+                localStorage.setItem('birthdayMessages', JSON.stringify(savedMessages));
+                
+                // Tampilkan pesan
+                displayMessage(message);
+                messageInput.value = '';
+            }
+        }
+        
+        // Hapus pesan
+        function deleteMessage(id) {
+            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            const updatedMessages = savedMessages.filter(msg => msg.id !== id);
+            localStorage.setItem('birthdayMessages', JSON.stringify(updatedMessages));
+            
+            // Perbarui UI
+            loadMessages();
+        }
+        
+        // Edit pesan
+        function editMessage(id, newText) {
+            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            const messageIndex = savedMessages.findIndex(msg => msg.id === id);
+            
+            if (messageIndex !== -1) {
+                savedMessages[messageIndex].text = newText;
+                localStorage.setItem('birthdayMessages', JSON.stringify(savedMessages));
+                loadMessages();
             }
         }
         
@@ -1291,45 +1244,15 @@
             hideContextMenu();
             if (!selectedMessageId) return;
             
-            const messageElement = document.querySelector(`.message-bubble[data-id="${selectedMessageId}"]`);
-            if (!messageElement) return;
+            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            const message = savedMessages.find(msg => msg.id === selectedMessageId);
             
-            const currentText = messageElement.querySelector('.message-content').textContent;
+            if (!message) return;
             
-            // Create edit form
-            const editForm = document.createElement('div');
-            editForm.innerHTML = `
-                <textarea class="edit-input">${currentText}</textarea>
-                <div class="edit-buttons">
-                    <button class="edit-btn save-btn">Simpan</button>
-                    <button class="edit-btn cancel-btn">Batal</button>
-                </div>
-            `;
-            
-            // Replace message with edit form
-            messageElement.innerHTML = '';
-            messageElement.appendChild(editForm);
-            
-            // Focus textarea
-            const textarea = editForm.querySelector('textarea');
-            textarea.focus();
-            textarea.selectionStart = textarea.value.length;
-            
-            // Save button event
-            editForm.querySelector('.save-btn').addEventListener('click', () => {
-                const newText = textarea.value.trim();
-                if (newText && socket && socket.connected) {
-                    socket.emit('edit_message', {
-                        id: selectedMessageId,
-                        text: newText
-                    });
-                }
-            });
-            
-            // Cancel button event
-            editForm.querySelector('.cancel-btn').addEventListener('click', () => {
-                loadMessages();
-            });
+            const newText = prompt('Edit pesan:', message.text);
+            if (newText !== null) {
+                editMessage(selectedMessageId, newText.trim());
+            }
         });
         
         // Delete message functionality
@@ -1338,9 +1261,7 @@
             if (!selectedMessageId) return;
             
             if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
-                if (socket && socket.connected) {
-                    socket.emit('delete_message', selectedMessageId);
-                }
+                deleteMessage(selectedMessageId);
             }
         });
         
