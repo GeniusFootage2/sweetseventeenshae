@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sweet seventeen Shae❤️</title>
+        <!-- Tambahkan Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- here -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Tambahkan Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <style>
         /* RESET & VARIABLES */
         :root {
@@ -842,6 +850,22 @@
         .connected { background: #4CAF50; }
         .disconnected { background: #F44336; }
         .connecting { background: #FFC107; }
+        
+        /* Tambahan untuk status online */
+        .online-status-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        
+        .online-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
@@ -960,35 +984,46 @@
                 <div class="signature">with love,<br>Ryu</div>
             </div>
         </section>
-
-        <!-- Chat Room -->
-        <section class="chat-section">
-            <h2 class="section-title">Room Chat</h2>
-            <div class="chat-container">
-                <div class="chat-header">
-                    <i class="fas fa-heart"></i> RyuShae <i class="fas fa-heart"></i>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Pesan akan dimuat di sini -->
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" class="message-input" id="messageInput" placeholder="Ketik pesan">
-                    <button class="send-button" id="sendButton">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
+    
+    <!-- Chat Room - Perbaikan header -->
+    <section class="chat-section">
+        <h2 class="section-title">Room Chat</h2>
+        <div class="chat-container">
+            <div class="chat-header">
+                <i class="fas fa-heart"></i> RyuShae <i class="fas fa-heart"></i>
+                <!-- Tambah elemen untuk status online -->
+                <div id="onlineStatus" class="online-status-container"></div>
             </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>From ryu for sweet seventeen Shae <span class="heart">❤️</span></p>
-        </footer>
-    </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Pesan akan dimuat di sini -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="message-input" id="messageInput" placeholder="Ketik pesan">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // ==================== KONFIGURASI UTAMA ====================
-        // Elemen DOM
+        // ==================== KONFIGURASI FIREBASE (GANTI DENGAN MILIK ANDA) ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyABC123YourAPIKey",
+            authDomain: "your-project-id.firebaseapp.com",
+            databaseURL: "https://your-project-id.firebaseio.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project-id.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abc123def456"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+       // ==================== INISIALISASI APLIKASI ====================
+                // Elemen DOM
         const splashScreen = document.getElementById('splashScreen');
         const connectionStatus = document.getElementById('connectionStatus');
         const statusDot = document.getElementById('statusDot');
@@ -1016,7 +1051,7 @@
             initFloatingHearts();
             initLoginSystem();
             initCountdown();
-            initChat();
+            // HAPUS initChat() DARI SINI (akan dipanggil setelah login)
         });
         
         // ==================== SPLASH SCREEN ====================
@@ -1064,31 +1099,30 @@
                 heartsBg.appendChild(heart);
             }
         }
-        
-        // ==================== LOGIN SYSTEM ====================
+        // ==================== LOGIN SYSTEM - PERBAIKAN ====================
         function initLoginSystem() {
             // Handle login
             loginMeBtn.addEventListener('click', () => {
                 currentUser = 'Ryu';
                 loginOverlay.style.display = 'none';
                 messageInput.focus();
-                loadMessages();
+                initChat(); // INISIALISASI CHAT SETELAH LOGIN
             });
             
             loginLoverBtn.addEventListener('click', () => {
                 currentUser = 'Shae';
                 loginOverlay.style.display = 'none';
                 messageInput.focus();
-                loadMessages();
+                initChat(); // INISIALISASI CHAT SETELAH LOGIN
             });
             
-            // Close login overlay
+                        // Close login overlay
             closeLoginBtn.addEventListener('click', () => {
                 loginOverlay.style.display = 'none';
             });
         }
-        
-        // ==================== COUNTDOWN TIMER ====================
+
+                // ==================== COUNTDOWN TIMER ====================
         function initCountdown() {
             function updateCountdown() {
                 const birthday = new Date("2025-07-24T00:00:00");
@@ -1114,8 +1148,8 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
         }
-        
-        // ==================== CHAT SYSTEM ====================
+
+        // ==================== CHAT SYSTEM DENGAN FIREBASE - PERBAIKAN ====================
         function initChat() {
             // Update status UI
             function updateConnectionStatus(status, text) {
@@ -1123,57 +1157,94 @@
                 statusText.textContent = text;
             }
             
-            // Simulasikan koneksi sukses
-            setTimeout(() => {
-                updateConnectionStatus('connected', 'Terhubung ke server lokal');
-            }, 2000);
+            // Referensi ke database Firebase
+            const messagesRef = database.ref('messages');
+            const presenceRef = database.ref('presence');
             
-            // Load pesan dari localStorage
-            loadMessages();
-        }
-        
-        function loadMessages() {
-            // Ambil pesan dari localStorage
-            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-            
-            // Tampilkan pesan
-            chatMessages.innerHTML = '';
-            savedMessages.forEach(msg => {
-                displayMessage(msg);
+            // Deteksi status koneksi Firebase
+            database.ref(".info/connected").on("value", (snapshot) => {
+                if (snapshot.val()) {
+                    updateConnectionStatus('connected', 'Terhubung!');
+                    
+                    // Set status online
+                    const userPresenceRef = presenceRef.child(currentUser);
+                    userPresenceRef.set(true);
+                    userPresenceRef.onDisconnect().set(false);
+                } else {
+                    updateConnectionStatus('disconnected', 'Koneksi terputus');
+                }
             });
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Load pesan dari Firebase
+            messagesRef.on('child_added', (snapshot) => {
+                const message = snapshot.val();
+                // SIMPAN KEY FIREBASE SEBAGAI ID PESAN
+                displayMessage(message, snapshot.key);
+            });
+            
+            // Deteksi perubahan status online
+            presenceRef.on('value', (snapshot) => {
+                updateOnlineStatus(snapshot.val());
+            });
         }
         
-        // Format waktu pesan
-        function formatTime(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        
-        // Tampilkan pesan di UI
-        function displayMessage(message) {
+        // ===== FUNGSI BARU: TAMPILKAN PESAN =====
+        function displayMessage(message, messageId) {
+            if (!currentUser) return;
+            
             const isOwn = message.sender === currentUser;
             const messageElement = document.createElement('div');
             messageElement.className = isOwn ? 'message-bubble sent' : 'message-bubble received';
+            
+            // SIMPAN ID PESAN (KEY FIREBASE)
+            messageElement.dataset.id = messageId;
             
             messageElement.innerHTML = `
                 <div class="message-content">${message.text}</div>
                 <div class="message-time">${formatTime(message.timestamp)}</div>
             `;
             
-            messageElement.dataset.id = message.id;
-            
             // Tambahkan context menu hanya untuk pesan sendiri
             if (isOwn) {
                 messageElement.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    selectedMessageId = message.id;
+                    selectedMessageId = messageId; // GUNAKAN KEY FIREBASE
                     showContextMenu(e);
                 });
             }
             
             chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // ===== FUNGSI BARU: FORMAT WAKTU =====
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Tampilkan status online
+        function updateOnlineStatus(users) {
+            const onlineStatusElement = document.getElementById('onlineStatus');
+            if (!onlineStatusElement) return;
+            
+            let onlineCount = 0;
+            let statusHtml = '';
+            
+            for (const user in users) {
+                if (users[user]) {
+                    onlineCount++;
+                    statusHtml += `<div class="online-status">
+                        <span class="online-dot"></span> ${user}
+                    </div>`;
+                }
+            }
+            
+            // Tampilkan status online
+            onlineStatusElement.innerHTML = statusHtml || 
+                `<div class="online-status">
+                    <span class="online-dot offline"></span> Offline
+                </div>`;
         }
         
         // Kirim pesan baru
@@ -1186,84 +1257,33 @@
             const text = messageInput.value.trim();
             if (text) {
                 const message = {
-                    id: Date.now().toString(),
                     sender: currentUser,
                     text: text,
                     timestamp: new Date().toISOString()
                 };
                 
-                // Simpan ke localStorage
-                const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-                savedMessages.push(message);
-                localStorage.setItem('birthdayMessages', JSON.stringify(savedMessages));
-                
-                // Tampilkan pesan
-                displayMessage(message);
+                // Simpan ke Firebase
+                database.ref('messages').push(message);
                 messageInput.value = '';
             }
         }
         
         // Hapus pesan
         function deleteMessage(id) {
-            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-            const updatedMessages = savedMessages.filter(msg => msg.id !== id);
-            localStorage.setItem('birthdayMessages', JSON.stringify(updatedMessages));
-            
-            // Perbarui UI
-            loadMessages();
+            database.ref('messages/' + id).remove();
         }
         
         // Edit pesan
         function editMessage(id, newText) {
-            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-            const messageIndex = savedMessages.findIndex(msg => msg.id === id);
-            
-            if (messageIndex !== -1) {
-                savedMessages[messageIndex].text = newText;
-                localStorage.setItem('birthdayMessages', JSON.stringify(savedMessages));
-                loadMessages();
-            }
+            database.ref('messages/' + id).update({ text: newText });
         }
         
-        // ==================== CONTEXT MENU FUNCTIONS ====================
+        // ===== FUNGSI BARU: TAMPILKAN CONTEXT MENU =====
         function showContextMenu(e) {
             contextMenu.style.display = 'block';
             contextMenu.style.left = `${e.pageX}px`;
             contextMenu.style.top = `${e.pageY}px`;
         }
-        
-        function hideContextMenu() {
-            contextMenu.style.display = 'none';
-        }
-        
-        // Hide context menu when clicking elsewhere
-        document.addEventListener('click', hideContextMenu);
-        
-        // Edit message functionality
-        editMessageBtn.addEventListener('click', () => {
-            hideContextMenu();
-            if (!selectedMessageId) return;
-            
-            const savedMessages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-            const message = savedMessages.find(msg => msg.id === selectedMessageId);
-            
-            if (!message) return;
-            
-            const newText = prompt('Edit pesan:', message.text);
-            if (newText !== null) {
-                editMessage(selectedMessageId, newText.trim());
-            }
-        });
-        
-        // Delete message functionality
-        deleteMessageBtn.addEventListener('click', () => {
-            hideContextMenu();
-            if (!selectedMessageId) return;
-            
-            if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
-                deleteMessage(selectedMessageId);
-            }
-        });
         
         // ==================== EVENT LISTENERS ====================
         sendButton.addEventListener('click', sendMessage);
