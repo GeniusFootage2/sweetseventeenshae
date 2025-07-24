@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sweet seventeen Shae❤️</title>
-        <!-- Tambahkan Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <!-- here -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Tambahkan Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <style>
         /* RESET & VARIABLES */
         :root {
@@ -116,7 +109,7 @@
             background: linear-gradient(to top, #ff9500, #ffde00);
             border-radius: 50% 50% 20% 20%;
             bottom: 280px;
-    left: 148px;
+            left: 148px;
             z-index: 1;
             opacity: 0;
             filter: blur(1px);
@@ -216,6 +209,7 @@
         .header {
             background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
             padding: 2rem 1rem;
+            height: 44rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -224,15 +218,15 @@
         }
 
         .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
-            z-index: 1;
-            animation: rotate 20s linear infinite;
+content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 1;
+    animation: rotate 20s linear infinite;
         }
 
         @keyframes rotate {
@@ -241,8 +235,9 @@
         }
 
         .header-content {
-            position: relative;
-            z-index: 2;
+position: relative;
+    top: 13rem;
+    z-index: 2;
         }
 
         .title {
@@ -448,7 +443,7 @@
 
         .message-bubble {
             max-width: 75%;
-            padding: 18px 22px 35px 22px; /* Extra padding for timestamp */
+            padding: 18px 22px;
             margin: 8px 0;
             border-radius: 25px;
             position: relative;
@@ -483,22 +478,6 @@
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
-        }
-        
-        .message-time {
-            position: absolute;
-            bottom: 8px;
-            right: 15px;
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-        
-        .received .message-time {
-            color: #4a4a4a;
-        }
-        
-        .sent .message-time {
-            color: rgba(255, 255, 255, 0.8);
         }
 
         .chat-input-area {
@@ -546,149 +525,6 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.2);
         }
 
-        /* Login Overlay */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-            display: none;
-        }
-
-        .login-box {
-            background: white;
-            border-radius: 25px;
-            padding: 2.5rem;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            position: relative;
-            border: 3px solid var(--pink-primary);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .login-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            color: var(--pink-dark);
-            margin-bottom: 2rem;
-        }
-
-        .login-options {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .login-option {
-            background: linear-gradient(90deg, var(--pink-primary), var(--pink-dark));
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        }
-
-        .login-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-
-        .login-option:active {
-            transform: translateY(2px);
-        }
-
-        .close-login {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: var(--pink-dark);
-            cursor: pointer;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .close-login:hover {
-            color: #ff6b93;
-            transform: rotate(90deg);
-        }
-
-        /* Countdown */
-        .countdown-section {
-            padding: 3rem 1rem;
-            background: linear-gradient(45deg, var(--pink-secondary), var(--cream-primary));
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
-            padding: 1.8rem;
-            min-width: 140px;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--pink-dark);
-        }
-
-        .countdown-item::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
-        }
-
-        .countdown-value {
-            font-size: 3rem;
-            font-weight: 600;
-            color: var(--pink-dark);
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .countdown-label {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
         /* Footer */
         .footer {
             background: linear-gradient(90deg, var(--pink-dark), var(--pink-primary));
@@ -721,16 +557,9 @@
             .subtitle {
                 font-size: 1.3rem;
             }
-            .countdown-item {
-                min-width: 100px;
-                padding: 1.2rem;
-            }
-            .countdown-value {
-                font-size: 2.5rem;
-            }
             .message-bubble {
                 max-width: 85%;
-                padding: 15px 18px 35px 18px;
+                padding: 15px 18px;
             }
             .section-title {
                 font-size: 2.5rem;
@@ -752,119 +581,24 @@
             }
         }
 
-        /* Context Menu */
-        .context-menu {
-            position: absolute;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1001;
-            display: none;
-            overflow: hidden;
-            min-width: 150px;
-        }
-
-        .context-menu-item {
-            padding: 12px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.2s;
-        }
-
-        .context-menu-item:hover {
-            background: #f8f8f8;
-        }
-
-        .context-menu-item.delete {
-            color: #ff6b6b;
-        }
-
-        .context-menu-item.edit {
-            color: #4a9eff;
-        }
-
-        .edit-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--pink-primary);
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .edit-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .edit-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .save-btn {
-            background: var(--pink-primary);
-            color: white;
-        }
-
-        .cancel-btn {
-            background: #f0f0f0;
-            color: #555;
-        }
-        
         /* Hide main content initially */
         .main-content {
             display: none;
         }
-
-        /* Connection status */
-        .connection-status {
+        
+        /* Loading indicator */
+        .sending-indicator {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(0,0,0,0.7);
             color: white;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 20px;
             font-size: 0.9rem;
+            display: none;
             z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        
-        .connected { background: #4CAF50; }
-        .disconnected { background: #F44336; }
-        .connecting { background: #FFC107; }
-        
-        /* Tambahan untuk status online */
-        .online-status-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 5px;
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-        }
-        
-        .online-status {
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
     </style>
 </head>
@@ -873,7 +607,7 @@
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <div class="cake-container">
-                <img src="cakess.png" alt="" style="
+                <img src="/img/cakess.png" alt="" style="
                 width: 467px;
                 position: absolute;
                 left: -70px;
@@ -884,11 +618,10 @@
             <div class="splash-text">Happy 17th Birthday!</div>
         </div>
     </div>
-
-    <!-- Connection Status -->
-    <div class="connection-status" id="connectionStatus">
-        <span class="status-dot connecting" id="statusDot"></span>
-        <span id="statusText">Menghubungkan ke server...</span>
+    
+    <!-- Sending Indicator -->
+    <div class="sending-indicator" id="sendingIndicator">
+        <i class="fas fa-spinner fa-spin"></i> Mengirim pesan ke Ryu...
     </div>
 
     <!-- Main Content (initially hidden) -->
@@ -896,57 +629,11 @@
         <!-- Background hearts -->
         <div class="hearts-bg" id="heartsBg"></div>
 
-        <!-- Login Overlay -->
-        <div class="login-overlay" id="loginOverlay">
-            <div class="login-box">
-                <button class="close-login" id="closeLogin">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2 class="login-title">Ryu/Shae</h2>
-                <div class="login-options">
-                    <button class="login-option" id="loginMe">
-                        <i class="fas fa-user"></i> Ryu
-                    </button>
-                    <button class="login-option" id="loginLover">
-                        <i class="fas fa-heart"></i> Shae❤️
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Context Menu -->
-        <div class="context-menu" id="contextMenu">
-            <div class="context-menu-item edit" id="editMessage">
-                <i class="fas fa-edit"></i> Edit Pesan
-            </div>
-            <div class="context-menu-item delete" id="deleteMessage">
-                <i class="fas fa-trash-alt"></i> Hapus Pesan
-            </div>
-        </div>
-
         <!-- Header Section -->
         <header class="header">
             <div class="header-content">
                 <h1 class="title">Selamat Ulang Tahun Shae❤️!</h1>
                 <p class="subtitle">Have a good day everyday,everytime, and smile everytime (lucu bgt soalnya hehe)</p>
-                <div class="countdown-container">
-                    <div class="countdown-item">
-                        <div class="countdown-value" id="days">0</div>
-                        <div class="countdown-label">Hari</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-value" id="hours">0</div>
-                        <div class="countdown-label">Jam</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-value" id="minutes">0</div>
-                        <div class="countdown-label">Menit</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-value" id="seconds">0</div>
-                        <div class="countdown-label">Detik</div>
-                    </div>
-                </div>
             </div>
         </header>
 
@@ -955,20 +642,20 @@
             <h2 class="section-title">All About We What I Have 😁</h2>
             <div class="photo-gallery">
                 <div class="photo-item">
-                    <img src="" alt="Kenangan 1">
+                    <img src="" alt="Fotbar">
                     <div class="photo-caption">Fotbar</div>
                 </div>
                 <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1516487200032-8532cb257d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 2">
+                    <img src="" alt="pap">
                     <div class="photo-caption">pap</div>
                 </div>
                 <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 3">
-                    <div class="photo-caption">game</div>
+                    <img src="" alt="mabar">
+                    <div class="photo-caption">mabar</div>
                 </div>
                 <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kenangan 4">
-                    <div class="photo-caption">chat</div>
+                    <img src="" alt="random">
+                    <div class="photo-caption">random</div>
                 </div>
             </div>
         </section>
@@ -979,79 +666,68 @@
                 <h2 class="section-title">Surat Cinta</h2>
                 <p class="message">
                     Hai princess, happy sweet seventeen yeah, selamat bertambah tua wkkwk, kita jadi seumuran (trial 10 hari). Makin banyak kegiatan kamu makin hari kehari, tapi aku yakin kamu pasti bisa ngejalanin itu semua hingga mencapai cita cita kamu, semangat yah, ill be here for you 😊.
-
+                    <br><br>
+                    Terimakasih selama ini sudah bertahan sama aku, walaupun pasti banyak yg naksir kamu, padahal aku engga punya kelebihan dibanding anak anak lain, tapi aku bakalan berusaha kelas 12 aku bakalan serius buat jadi akpol, bismillah doain yah, ayo kita berjuan bareng, dan nanti awal masuk kamu pasti kaget, aku bakalan beraniin buat adzan dan istigosah, hehe.
+                    <br><br>
+                    Semoga di ulang tahun kamu yg ke-17 ini, kamu jadi lebih peduli sama diri kamu sendiri, jgn terlalu mentingin orang lain, jadwal kamu juga pasti makin padet nanti, apalagi kamu disuruh milih les mandarin atau jerman 🗿, kataku mending jepang sih. yah tapi bahasa apapun kamu pasti bisa hafalan kamu kuat pinter juga, kerennya.
+                    <br><br>
+                    Sebenernya ini website mau buat anyversary kita, tapi maaf engga sempet ngelarin error terus, bahkan web yg buat hari ibu waktu itu engga bisa ku benerin (gara gara update software kodenya error maaf😔),alhamdulillah aku bisa ngelarin website ini, dan sekarang kita bisa chatingan juga disini hehe. tapi ribet sih kamu harus nulis langsung ke githubnya, nantiaku anjarin kalau ketemu.
+                    <br><br>
+                    aku pingin nambahin lebih panjang lagi, tapi bingung mau ngomong apa 😔, tapi intinya aku berharap kamu bisa lebih bahagia dan terus senyum setiap hari, sumaph lucu bgt kalau senyum.
                 </p>
                 <div class="signature">with love,<br>Ryu</div>
             </div>
         </section>
-    
-    <!-- Chat Room - Perbaikan header -->
-    <section class="chat-section">
-        <h2 class="section-title">Room Chat</h2>
-        <div class="chat-container">
-            <div class="chat-header">
-                <i class="fas fa-heart"></i> RyuShae <i class="fas fa-heart"></i>
-                <!-- Tambah elemen untuk status online -->
-                <div id="onlineStatus" class="online-status-container"></div>
+
+        <section class="chat-section">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-heart"></i> RyuShae <i class="fas fa-heart"></i>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Semua pesan Ryu akan dimuat di sini -->
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <i class="fas fa-circle"></i>
+                    <i class="fas fa-circle"></i>
+                    <i class="fas fa-circle"></i>
+                </div>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <!-- Pesan akan dimuat di sini -->
-            </div>
-            <div class="chat-input-area">
-                <input type="text" class="message-input" id="messageInput" placeholder="Ketik pesan">
-                <button class="send-button" id="sendButton">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+        </section>
+
+        <div class="scroll-indicator" id="scrollIndicator">
+            <i class="fas fa-arrow-down"></i>
         </div>
-    </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>From ryu for sweet seventeen Shae <span class="heart">❤️</span></p>
+        </footer>
+    </div>
 
     <script>
-        // ==================== KONFIGURASI FIREBASE (GANTI DENGAN MILIK ANDA) ====================
-        const firebaseConfig = {
-            apiKey: "AIzaSyABC123YourAPIKey",
-            authDomain: "your-project-id.firebaseapp.com",
-            databaseURL: "https://your-project-id.firebaseio.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project-id.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abc123def456"
-        };
-
-        // Inisialisasi Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-       // ==================== INISIALISASI APLIKASI ====================
-                // Elemen DOM
+        // ==================== KONFIGURASI UTAMA ====================
+        // Elemen DOM
         const splashScreen = document.getElementById('splashScreen');
-        const connectionStatus = document.getElementById('connectionStatus');
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
         const heartsBg = document.getElementById('heartsBg');
-        const loginOverlay = document.getElementById('loginOverlay');
-        const loginMeBtn = document.getElementById('loginMe');
-        const loginLoverBtn = document.getElementById('loginLover');
-        const closeLoginBtn = document.getElementById('closeLogin');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
         const chatMessages = document.getElementById('chatMessages');
-        const contextMenu = document.getElementById('contextMenu');
-        const editMessageBtn = document.getElementById('editMessage');
-        const deleteMessageBtn = document.getElementById('deleteMessage');
+        const sendingIndicator = document.getElementById('sendingIndicator');
         
         // State aplikasi
-        let currentUser = null;
-        let selectedMessageId = null;
-        let socket = null;
+        const currentUser = 'Shae';
+        
+        // Inisialisasi EmailJS
+        (function() {
+            emailjs.init("WY5yq6Yp6QeGcJqH7"); // User ID EmailJS
+        })();
         
         // ==================== FUNGSI INISIALISASI ====================
         document.addEventListener('DOMContentLoaded', () => {
             initSplashScreen();
             initFloatingHearts();
-            initLoginSystem();
-            initCountdown();
-            // HAPUS initChat() DARI SINI (akan dipanggil setelah login)
+            initChat();
         });
         
         // ==================== SPLASH SCREEN ====================
@@ -1072,6 +748,7 @@
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
                     document.querySelector('.main-content').style.display = 'block';
+                    messageInput.focus();
                 }, 1000);
             }, 4000);
         }
@@ -1099,198 +776,190 @@
                 heartsBg.appendChild(heart);
             }
         }
-        // ==================== LOGIN SYSTEM - PERBAIKAN ====================
-        function initLoginSystem() {
-            // Handle login
-            loginMeBtn.addEventListener('click', () => {
-                currentUser = 'Ryu';
-                loginOverlay.style.display = 'none';
-                messageInput.focus();
-                initChat(); // INISIALISASI CHAT SETELAH LOGIN
-            });
-            
-            loginLoverBtn.addEventListener('click', () => {
-                currentUser = 'Shae';
-                loginOverlay.style.display = 'none';
-                messageInput.focus();
-                initChat(); // INISIALISASI CHAT SETELAH LOGIN
-            });
-            
-                        // Close login overlay
-            closeLoginBtn.addEventListener('click', () => {
-                loginOverlay.style.display = 'none';
-            });
-        }
+        
+        // ==================== CHAT SYSTEM ====================
+        // Array berisi semua pesan Ryu
+        const ryuMessages = [
+            "apaan coba tiba tiba mutusin, habis ilang 3 hari langsung mutusin, pantesan kayak ngejauh belakangan ini tai",
+            "salah apaan lagi coba?",
+            "blok, mene tak jak e ketemu ae",
+            "tai udah wa telfon engga dijawab jawab",
+            "wasem sak iki alasan loro, terus kapan isok ketemune, wa ga di jawab omah yo ga ero",
+            "gendeng a, masi o ero kon kate marani ndang omah e? kate lapo",
+            "yo pisan, tapi juancik iki opo engga jelas tiba tiba putus, ilang, ghosting salah ku opo ae engga ngomong, mosok keruan wong tuo ne?",
+            "mungkin ae, tapi koyok e engga mungkin nek gara gara keruan, de e pasti ngomong liwat pin",
+            "nek ngunu dienteni ae, bismillah ngekei kejelasan engkok",
+            "tai postingan ulang e koyok ngunu, nyindir nyindir mantan berarti fix iki de e engcen murni njalok putus guduk gara gara wong tuone",
+            "iyo seh, lapo o iku coba pikiren maneh kon salah ndek endi delok en kabeh postingan ulang e karo igne, sak pin e",
+            "guoblok kon rel goblok, licik taek, engga peka tolol, wibu, egois babi, ternyata de e wes ngepost ulang mulai bien tapi aku jarng ndelok, guoblok rel goblok",
+            "tapi de e engga gelem ngomong langsung",
+            "mikiro de e wes gelek ngomong, kon iling sing ndek pin, de e kecewa kon jarang ngehubungi, terus postingan ulang e koen mek ngehubungi pas bengi tok nek isuk engga, dadi koyok kon mek ngehubungi pas butuh, se enggak e pas dikongkon ndang kelas mabar wingi gelem o cik, wani licik dadi arek de e ae sampe ngebelani download ml gae cek isok mabar, tolol rel, goblok kon iku, hancik",
+            "engga cik, aku engga ngehubi gara gara engga pingin ganggu, kon ero kan jadwal e padet, terus aku engga marani gr gra rame, aku yo isin e nek de e ngarap malah tak ganggu, aku yo eruh waktu, aku pingin ngejak mangan ramen senin e, terus seloso muteri bazar bareng , rebune nek isok ndang gramed maneh ngelumpukno kaoru rin, eh diputusno cik",
+            "alesan tok ngomong o ae licik, menyedihkan, negcewakno tok",
+            "de e yo ngecewakno aku pas iku, de e fotbar karo daffa tapi pas ndang bali tak jak ketemu engga gelem terus, ngehindar terus nagis cik aku pas iku, mending engga ndang bali, padahal wis nyiapno kate gae video segala macem cik",
+            "goblok a kon ngecompare karo daffa de e langsung marani engga licik koyok koen, koen modal wa tok engga wani marani, ketemu ndang ngarep e lift ae wedi kate nyopo",
+            "nek koen ngecompare gr gr daffa, kon yo kudu iling kon tau garai de e sape hampir nangis gara gara cidek karo lisfa",
+            "aku mek cidek tok engga saling seneng, de e yo ndue pacar",
+            "ngotak blok, yo opo perasaanmu pas sahlu isok ngecet se enak iku ndang de e? padahal mek titip oleh oleh guyon koen kate nangis, de e amabh yo opo koen ben dino dikirim lisfa real, terus sing de e pingin gawekno koen gelem ngeawekno, opo bedane, malah tambah parah blok",
+            "hancik, aku yo engga ngerti seh, aku engga kepikiran, tak kiro yo biasa ngunu iku, barek an de e wis ndue gendak an",
+            "mikiro ae coba nek lisfa iku daffa terus koen iku gelsy mikiro blok",
+            "iiyo hancik salahku, tapi yok opo dek e ae engga gelem mbales wa ku, yo opo njalok sepurone",
+            "yo paranono langsung, dadio koyok daffa wani amarani masih akeh arek",
+            "gendeng, yo opo oleh wani,  introvert aku iki blok",
+            "yo lawanen, ngene kate adzan karo istighosa, emang bakalan kelakon? muali bien engga kelakon blok omong tok",
+            "ngomong gampang, nek temenan marani ndek ngarep e arek akeh isok isok kyok wong tolol ngunu a, ketemu wong loro ae sek termor, mending tak spam ae",
+            "goblok mending koen meneng sek terus tiba tiba pas masuk sekolah paranono ndek kelas e cek engga onok alasan ngehindar",
+            "tapi loh mosok isok aku koyok ngunu",
+            "taek, daffa ae wani, mosk koen engga wani, licik",
+            "ilino dek e sampe hampir berpaling gr gr daffa terang ternagan nguber de e ndang ngarep e wong akeh engga koyok koen sing licik, kteang ae de e sek milih koen, tapi koen malah selama iki gaae de e sedih blok",
+            "aku yo engga bermaksud cik, aku isin nek ketoan gembul karo gelsy, gelsy loh pinter ayu lucu, lah aku? isin cik pasti podo mikir kok gelem gelsy karo farell iku, aku yo pingin bendino kepukana, pas istiraatt mangan bareng tapi yo insecure nek gelek gembul, karo yo engga enak rasane nek gembul karo arek wedok ngunu opo mane karo gelsy, panas adem rasane. koyok e gr gr iku mendekati zina dadi ngunu",
+            "halah sak iki ngunu, bien utekmu ndnag endi, isok isok o conves ndek gelsy",
+            "tapikan aku engga tau jempokan tangan karo arek e, ketmu yo jarang iku gae minimalisir zina, karo yo insecure pisan guduk gara gra lost interesd, de e yo post ulang awal lanang effort akhir engga effort, aku isin cik insecure guduk lost interest, nek lostt interest yo engga mungkin aku gae web iki, nukokno ramen karo wis nyiapno hadiah gae dek e ngerakitno gundam cek e dek e iling tiap ndelok gundam e karo aku, soal e aku sueneng karo gundam, tapi gurung gekek no malah dek e mutusno hancik",
+            "yo slaahmu manchild, slow chilsdish engga dewasa tolol, menyedihkan",
+            "de e melbu les ndang masterprima pisan rel",
+            "yo ikuu kesempatan engkok pas les petuk ono rel isok",
+            "tambah engga mungkinlah, sek mungkin ndang sekolah ndek les akeh arek njobo man",
+            "cik sak iki de e nge wa tapi gae ngelog ouy ig? taek cik aku jawab opo",
+            "jawab en ae, terus takok ono maneh alesan e putus",
+            "menyedihkan cik taek",
+            "parani ae wes rel samapta mene wani o ojok licik",
+            "bismillah, ayo rel isok wani dudokno nek koen isok berubah dadi wani engga licik",
+            "engga teko wok arek e padahal wis tak wani wanino",
+            "mene ndang brawijaya jak en bareng, adoh seh rel, sopo ero de e gurung tau merunu bismillah wani rel, entenono ndek avian bismllah isok rel isok",
+            "engga dijawab sak perene rel rel, terus yok opo aku kuduk lapo maneh rel goblok",
+            "ayo rel isok mene kudu wani marani semangat rel semanagat bimillah",
+            "asem diterno koyok e karo wong tuo e, yo engga wani aku",
+            "ojok resiko rel mending mene, bismillah iosk rel isok mene wani gae marani gelsy bismillah",
+            "alhamdulillah isok ngekekno ndang de effort",
+            "mari samapta iki ayo mbelayu rel full speed",
+            "alhamdulillah isok 5 setengah puteran",
+            "goblok rel tai malah diblok kaebh guoblok, lapo seh laposeh kon iki, wes mending mek ngabari tok dan ngekei info nek onok opo opo koyok sak durunge, eh malah koen mekso gae balikan goblok goblok",
+            "mene cobak maenh ae, kekno manga e pisan karo obat e",
+            "gendeng nek tambah mureng moreng engkok yok opo rel",
+            "nanggung resiko, sopo ero engkok koyok daffa isok ngeluluhno atine gelsy,bismillah mene pasti isok",
+            "asem malah dilokno childish, opo seh aku wes berusaha wani loh iki marani ngenteni mulai isuk",
+            "buktino ae rel nek koen isok berubah engkok adzan o dhuhur sak ashar e",
+            "isok a tapine aku iki",
+            "adzan ae engga wani, koen ngarep isok nemoni gelsy maneh? gendneg rel",
+            "alhamdulillah ya allah hambamu ini pertama kali adzan dimasjid, bismillah sar juga bisa ya allah",
+            "alhamdulillah terimaksih yaallah hambamu bisa adzan lagi sore ini, bismillah yaallah berikanlah hambamu ini keberanian menemui gelsy lagi yaallah",
+            "asem goblok aku malah gae de e nangis ndek les, pertama kali aku kerungu dek e nagis, engga pingin aku cik gae dek e nangis, goblok rel gara gara koen sore maeng dadi nangis, de e yo ngomong koen egois, taek blok koen encen egois tolol",
+            "terus yok opo, aku engga pingin nyerah aku sek sayayng ndang gelsy, pingin gae de e seneng guduk nangis",
+            "blok blok, mending koen bien engga kconfesconfes, pasti de e bahagia karo daffa, blok goblok rel goblok, salahmu akeh ndnag gelsy, masih yok opo ae aku bakaln berjuang gae gelsy",
+            "ayo rel isok berubah dadi luweh apik bismillah semangat",
+            "sad lah, gara gara telat titik ae dadi engga sak sei Karo gelsy padahal arek arek isok sak sesi, nek sak sesi kan isokk papasan terus ngekei semnagat ndang de e, bulan depan ae nek ngunu tak isuk i ben isok sak sesi bismillah",
+            "wok de e isok 5 puteran mekso mbelayu, ayo rel isok 7 puteran seenggak e",
+            "wok isok 7 puteran",
+            "tapi de e koyok engga peduli nguunu",
+            "wok isok isok o sak baris ndek pull up",
+            "de e budal dewe tah diterno yo",
+            "mene wayah e workshop, melok engga yo de e, bismillahh isok gembul, tapi engga mungkin seh, hahah, nelat ae lah",
+            "alhamdulillah sebaris ya allah, bajunya juga sama hahah, tapi terus apa? lu belum pantes sekarang, fokus benahin dirilo kosnsisten sama jadwal latian mu",
+            "wok, de e pas maju lucu pula, pasti akeh sing naksir nek ngene",
+            "alhamdulillah yaallah bisa ngebantu gelsy, lagi hari ini, bismillah bisa ngebantu lagi next time",
+            "koen yakin rel sek pingin nguber de e? de e ketok luwih bahagia sak iki, pelayon karo koncone maeng isuk lucu pula, tapi pas ndelok koen langsung badmood",
+            "aku tetep bakalan nepatin janjiku gae berjuan ngentukno de e",
+            "moleh sekolah ketemu de e, tapi mengkerut banget wajah e, se tai iku kah aku gae de e? ngene mene kate ngekekno haidah, mending engga usah deh",
+            "tapi terus bakalan mbok simpen maneh hadiah e? wis mbok siapno sak website karo gundam e loh, nek engga di kekno bakalan nyesel koen rel",
+            "nek tak titipno fraya ae yok opo yah, tak suwek kabeh kertas e sing isine teka teki iku cek engga ero de e nek iku teko aku",
+            "tapi engga bakalan curigatah de e",
+            "semoga ae engga, sing penting aku isok berguna gae de e",
+            "ngucapno engga yo, ngirim web e ndang de e, ah diblokir maneh engkok akunku, pasti de e risih, coba ae nek engga tak suwek kabeh kertas e",
+            "ah gendeng a, engkok tampabah di guak kabeh hadiahmu, terus nek de e tukaran karo fraya",
+            "iyo pisan seh, tapi aku pingin ngucapno de e",
+            "engko bengi ae rel ucapno, masih di blok gapopo wes, sing penting isok ngucapno"
+        ];
 
-                // ==================== COUNTDOWN TIMER ====================
-        function initCountdown() {
-            function updateCountdown() {
-                const birthday = new Date("2025-07-24T00:00:00");
-                const now = new Date();
-                
-                if (now > birthday) {
-                    birthday.setFullYear(birthday.getFullYear() + 1);
-                }
-                
-                const diff = birthday - now;
-                
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.getElementById("days").textContent = days.toString().padStart(2, '0');
-                document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-                document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-                document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animasi splash screen
+            setTimeout(() => {
+                document.querySelector('.splash-text').style.opacity = '1';
+                createConfetti();
+            }, 500);
             
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-        }
-
-        // ==================== CHAT SYSTEM DENGAN FIREBASE - PERBAIKAN ====================
-        function initChat() {
-            // Update status UI
-            function updateConnectionStatus(status, text) {
-                statusDot.className = 'status-dot ' + status;
-                statusText.textContent = text;
-            }
-            
-            // Referensi ke database Firebase
-            const messagesRef = database.ref('messages');
-            const presenceRef = database.ref('presence');
-            
-            // Deteksi status koneksi Firebase
-            database.ref(".info/connected").on("value", (snapshot) => {
-                if (snapshot.val()) {
-                    updateConnectionStatus('connected', 'Terhubung!');
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splashScreen').style.display = 'none';
+                    document.querySelector('.main-content').style.display = 'block';
                     
-                    // Set status online
-                    const userPresenceRef = presenceRef.child(currentUser);
-                    userPresenceRef.set(true);
-                    userPresenceRef.onDisconnect().set(false);
+                    // Tampilkan pesan satu per satu
+                    displayMessages();
+                }, 1000);
+            }, 4000);
+            
+            // Floating hearts
+            initFloatingHearts();
+        });
+        
+        function createConfetti() {
+            const splashScreen = document.getElementById('splashScreen');
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                splashScreen.appendChild(confetti);
+            }
+        }
+        
+        function initFloatingHearts() {
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('i');
+                heart.classList.add('fas', 'fa-heart', 'heart-bg');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 15}s`;
+                heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                heart.style.opacity = Math.random() * 0.3 + 0.1;
+                document.getElementById('heartsBg').appendChild(heart);
+            }
+        }
+        
+        function displayMessages() {
+            const chatMessages = document.getElementById('chatMessages');
+            let delay = 0.2; // Delay awal
+            
+            // Tampilkan indikator typing
+            document.getElementById('typingIndicator').style.display = 'flex';
+            
+            // Fungsi untuk menampilkan pesan dengan delay
+            function showMessage(index) {
+                if (index < ryuMessages.length) {
+                    setTimeout(() => {
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'message-bubble sent';
+                        messageElement.style.animationDelay = `${delay}s`;
+                        messageElement.innerHTML = `<div class="message-content">${ryuMessages[index]}</div>`;
+                        chatMessages.appendChild(messageElement);
+                        
+                        // Scroll ke bawah
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        // Tampilkan scroll indicator jika perlu
+                        if (chatMessages.scrollHeight > chatMessages.clientHeight) {
+                            document.getElementById('scrollIndicator').style.opacity = '1';
+                        }
+                        
+                        // Panggil untuk pesan berikutnya
+                        delay += 0.2;
+                        showMessage(index + 1);
+                    }, 300); // Delay antar pesan
                 } else {
-                    updateConnectionStatus('disconnected', 'Koneksi terputus');
+                    // Sembunyikan indikator typing setelah semua pesan ditampilkan
+                    document.getElementById('typingIndicator').style.display = 'none';
                 }
-            });
-            
-            // Load pesan dari Firebase
-            messagesRef.on('child_added', (snapshot) => {
-                const message = snapshot.val();
-                // SIMPAN KEY FIREBASE SEBAGAI ID PESAN
-                displayMessage(message, snapshot.key);
-            });
-            
-            // Deteksi perubahan status online
-            presenceRef.on('value', (snapshot) => {
-                updateOnlineStatus(snapshot.val());
-            });
-        }
-        
-        // ===== FUNGSI BARU: TAMPILKAN PESAN =====
-        function displayMessage(message, messageId) {
-            if (!currentUser) return;
-            
-            const isOwn = message.sender === currentUser;
-            const messageElement = document.createElement('div');
-            messageElement.className = isOwn ? 'message-bubble sent' : 'message-bubble received';
-            
-            // SIMPAN ID PESAN (KEY FIREBASE)
-            messageElement.dataset.id = messageId;
-            
-            messageElement.innerHTML = `
-                <div class="message-content">${message.text}</div>
-                <div class="message-time">${formatTime(message.timestamp)}</div>
-            `;
-            
-            // Tambahkan context menu hanya untuk pesan sendiri
-            if (isOwn) {
-                messageElement.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    selectedMessageId = messageId; // GUNAKAN KEY FIREBASE
-                    showContextMenu(e);
-                });
             }
             
-            chatMessages.appendChild(messageElement);
+            // Mulai menampilkan pesan
+            showMessage(0);
+        }
+        
+        // Scroll to bottom function
+        document.getElementById('scrollIndicator').addEventListener('click', () => {
+            const chatMessages = document.getElementById('chatMessages');
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // ===== FUNGSI BARU: FORMAT WAKTU =====
-        function formatTime(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        
-        // Tampilkan status online
-        function updateOnlineStatus(users) {
-            const onlineStatusElement = document.getElementById('onlineStatus');
-            if (!onlineStatusElement) return;
-            
-            let onlineCount = 0;
-            let statusHtml = '';
-            
-            for (const user in users) {
-                if (users[user]) {
-                    onlineCount++;
-                    statusHtml += `<div class="online-status">
-                        <span class="online-dot"></span> ${user}
-                    </div>`;
-                }
-            }
-            
-            // Tampilkan status online
-            onlineStatusElement.innerHTML = statusHtml || 
-                `<div class="online-status">
-                    <span class="online-dot offline"></span> Offline
-                </div>`;
-        }
-        
-        // Kirim pesan baru
-        function sendMessage() {
-            if (!currentUser) {
-                loginOverlay.style.display = 'flex';
-                return;
-            }
-            
-            const text = messageInput.value.trim();
-            if (text) {
-                const message = {
-                    sender: currentUser,
-                    text: text,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Simpan ke Firebase
-                database.ref('messages').push(message);
-                messageInput.value = '';
-            }
-        }
-        
-        // Hapus pesan
-        function deleteMessage(id) {
-            database.ref('messages/' + id).remove();
-        }
-        
-        // Edit pesan
-        function editMessage(id, newText) {
-            database.ref('messages/' + id).update({ text: newText });
-        }
-        
-        // ===== FUNGSI BARU: TAMPILKAN CONTEXT MENU =====
-        function showContextMenu(e) {
-            contextMenu.style.display = 'block';
-            contextMenu.style.left = `${e.pageX}px`;
-            contextMenu.style.top = `${e.pageY}px`;
-        }
-        
-        // ==================== EVENT LISTENERS ====================
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+            document.getElementById('scrollIndicator').style.opacity = '0';
         });
     </script>
 </body>
